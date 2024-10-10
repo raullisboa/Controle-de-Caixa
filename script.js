@@ -427,10 +427,11 @@ function salvarDadosCSV() {
   const tSuprimento =
     parseFloat(
       document.getElementById("suprimento").value
-      // .textContent.replace(".", "")
-      // .replace(",", ".")
     ) || 0;
-  const obs = document.getElementById("obs").value || "";
+
+  // Substitui quebras de linha por espaço em branco
+  const obs = (document.getElementById("obs").value || "").replace(/\n/g, " ") || "";
+
   const total =
     parseFloat(
       document
@@ -463,3 +464,4 @@ function salvarDadosCSV() {
   link.click();
   document.body.removeChild(link); // Remove o link após o download
 }
+
