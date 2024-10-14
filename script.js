@@ -302,6 +302,7 @@ function carregarDados() {
   } else {
     alert("Por favor, selecione uma data.");
   }
+  carregarMoedasAnterior();
 }
 
 // Função para limpar os dados da tela e do localStorage para a data selecionada
@@ -425,12 +426,11 @@ function salvarDadosCSV() {
         .replace(",", ".")
     ) || 0;
   const tSuprimento =
-    parseFloat(
-      document.getElementById("suprimento").value
-    ) || 0;
+    parseFloat(document.getElementById("suprimento").value) || 0;
 
   // Substitui quebras de linha por espaço em branco
-  const obs = (document.getElementById("obs").value || "").replace(/\n/g, " ") || "";
+  const obs =
+    (document.getElementById("obs").value || "").replace(/\n/g, " ") || "";
 
   const total =
     parseFloat(
@@ -465,3 +465,48 @@ function salvarDadosCSV() {
   document.body.removeChild(link); // Remove o link após o download
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  const campoData = document.getElementById("data");
+  const hoje = new Date().toISOString().split("T")[0];
+  campoData.value = hoje;
+
+  carregarDados(); // Isso já vai carregar os dados salvos para a data atual
+
+  // Chama a função para carregar as moedas do dia anterior
+  carregarMoedasAnterior();
+});
+
+function carregarMoedasAnterior() {
+  const campoData = document.getElementById("data").value;
+  const dataAtual = new Date(campoData);
+
+  // Subtrai um dia para pegar o dia anterior
+  const diaAnterior = new Date(dataAtual);
+  diaAnterior.setDate(diaAnterior.getDate() - 1);
+
+  // Converte a data anterior para o formato YYYY-MM-DD
+  const diaAnteriorFormatado = diaAnterior.toISOString().split("T")[0];
+
+  // Verifica se há dados para o dia anterior no localStorage
+  const dadosAnteriores = JSON.parse(
+    localStorage.getItem(diaAnteriorFormatado)
+  );
+
+  if (dadosAnteriores) {
+    // Se existir dados, busca os valores de moedasC e moedasB
+    const moedasC = parseFloat(dadosAnteriores.moedasC) || 0; // Converte para número, garantindo que não seja NaN
+    const moedasB = parseFloat(dadosAnteriores.moedasB) || 0; // Converte para número, garantindo que não seja NaN
+
+    // Calcula a soma
+    const totalMoedas = moedasC + moedasB;
+
+    // Atualiza o campo de "moedas a pagar"
+    document.getElementById("moedasPagar").value = totalMoedas
+      .toString()
+      .replace(".", ",");
+  } else {
+    // Se não houver dados para o dia anterior, deixa o campo vazio ou com valor padrão
+    document.getElementById("moedasPagar").value = "";
+  }
+  atualizarResumo();
+}
