@@ -8,37 +8,46 @@
   </head>
 
   <body>
-    <!-- Div que engloba tudo -->
-    <div class="container">
-      <!-- <h1>CAIXA - CONTROLE DIÁRIO</h1> -->
-      <!-- Informações de usuário, data e botão de baixar arquivo -->
+    <div class="header">
+      <h2>CAIXA - CONTROLE DIÁRIO</h2>
+      <!-- Informações de usuário e data-->
       <div class="user-info">
-        <label for="nomeUsuario">Usuário</label>
-        <input type="text" id="nomeUsuario" placeholder="Digite seu nome" />
-        <label for="data">Data</label>
-        <input type="date" id="data" onchange="carregarDados()" />
-        <button onclick="salvarDadosCSV()">Baixar Arquivo</button>
+        <div>
+          <label for="nomeUsuario">Usuário</label>
+          <input type="text" id="nomeUsuario" placeholder="Digite seu nome" />
+        </div>
+        <div>
+          <label for="data">Data</label>
+          <input
+            type="date"
+            id="data"
+            onfocus="this.showPicker()"
+            onchange="carregarDados()"
+          />
+        </div>
       </div>
+    </div>
+
+    <div class="container">
       <!-- Container flex que contém todo o conteúdo das contas -->
       <div class="flex-container">
         <!-- Coluna 1 -->
         <div class="coluna1">
+          <h3>Entradas de Valores</h3>
           <!-- Seção Dinheiro -->
-          <div class="item item-border">
+          <div class="input-with-button">
             <label for="dinheiro">Dinheiro</label>
-            <div>
-              <input
-                type="text"
-                id="dinheiro"
-                placeholder="00,00"
-                oninput="formatarNumeroInput(this); atualizarResumo()"
-              />
-            </div>
+            <input
+              type="text"
+              id="dinheiro"
+              placeholder="00,00"
+              oninput="formatarNumeroInput(this); atualizarResumo()"
+            />
           </div>
           <!-- Seção Cartão -->
-          <div class="item item-border">
-            <label for="inputCartao">Cartão</label>
+          <div>
             <div class="input-with-button">
+              <label for="inputCartao">Cartão</label>
               <input
                 type="text"
                 id="inputCartao"
@@ -53,9 +62,9 @@
             <ul id="cartao"></ul>
           </div>
           <!-- Seção Pix -->
-          <div class="item item-border">
-            <label for="inputPix">Pix</label>
+          <div>
             <div class="input-with-button">
+              <label for="inputPix">Pix</label>
               <input
                 type="text"
                 id="inputPix"
@@ -70,9 +79,9 @@
             <ul id="pix"></ul>
           </div>
           <!-- Seção Vale -->
-          <div class="item item-border">
-            <label for="inputVale">Vale</label>
+          <div>
             <div class="input-with-button">
+              <label for="inputVale">Vale</label>
               <input
                 type="text"
                 id="inputVale"
@@ -87,9 +96,9 @@
             <ul id="vale"></ul>
           </div>
           <!-- Seção Resgate -->
-          <div class="item item-border">
-            <label for="inputResgate">Resgate</label>
+          <div>
             <div class="input-with-button">
+              <label for="inputResgate">Resgate</label>
               <input
                 type="text"
                 id="inputResgate"
@@ -106,63 +115,53 @@
         </div>
         <!-- Coluna 2 -->
         <div class="coluna2">
-          <div class="moedas-cimabaixo">
-            <!-- Seção Moedas Cima -->
-            <div class="item">
-              <div>
-                <label for="moedasC">Moedas de Cima</label>
-              </div>
-              <input
-                type="text"
-                id="moedasC"
-                placeholder="00,00"
-                oninput="formatarNumeroInput(this); atualizarResumo()"
-              />
-            </div>
-            <!-- Seção Moedas Baixo -->
-            <div class="item">
-              <div>
-                <label for="moedasB">Moedas de Baixo</label>
-              </div>
-              <input
-                type="text"
-                id="moedasB"
-                placeholder="00,00"
-                oninput="formatarNumeroInput(this); atualizarResumo()"
-              />
-            </div>
+          <h3>Moedas e Suprimento</h3>
+          <!-- Seção Moedas Cima -->
+          <div class="input-with-text">
+            <label for="moedasC">Moedas de Cima</label>
+            <input
+              type="text"
+              id="moedasC"
+              placeholder="00,00"
+              oninput="formatarNumeroInput(this); atualizarResumo()"
+            />
           </div>
+          <!-- Seção Moedas Baixo -->
+          <div class="input-with-text">
+            <label for="moedasB">Moedas de Baixo</label>
+            <input
+              type="text"
+              id="moedasB"
+              placeholder="00,00"
+              oninput="formatarNumeroInput(this); atualizarResumo()"
+            />
+          </div>
+
           <!-- Seção Moedas a Pagar -->
-          <div class="moedas-valorpago">
-            <div class="item">
-              <div>
-                <label for="moedasPagar">Moedas a Pagar</label>
-              </div>
-              <input
-                type="text"
-                id="moedasPagar"
-                placeholder="00,00"
-                oninput="formatarNumeroInput(this); atualizarResumo()"
-              />
-            </div>
-            <!-- Seção Valor Pago -->
-            <div class="item">
-              <div>
-                <label for="valorPago">Valor Pago</label>
-              </div>
-              <input
-                type="text"
-                id="valorPago"
-                placeholder="00,00"
-                oninput="formatarNumeroInput(this); atualizarResumo()"
-              />
-            </div>
+          <div class="input-with-text">
+            <label for="moedasPagar">Moedas a Pagar</label>
+            <input
+              type="text"
+              id="moedasPagar"
+              placeholder="00,00"
+              oninput="formatarNumeroInput(this); atualizarResumo()"
+            />
           </div>
+
+          <!-- Seção Valor Pago -->
+          <div class="input-with-text">
+            <label for="valorPago">Valor Pago</label>
+            <input
+              type="text"
+              id="valorPago"
+              placeholder="00,00"
+              oninput="formatarNumeroInput(this); atualizarResumo()"
+            />
+          </div>
+
           <!-- Seção Suprimento -->
-          <div class="suprimento item">
-            <div>
-              <label for="suprimento">Suprimento</label>
-            </div>
+          <div class="input-with-text">
+            <label for="suprimento">Suprimento</label>
             <input
               type="text"
               id="suprimento"
@@ -171,16 +170,15 @@
             />
           </div>
           <!-- Seção Observações -->
-          <div class="obs">
-            <div>
-              <label for="obs">Observações</label>
-            </div>
+          <div class="obs input-with-text">
+            <label for="obs">Observações</label>
             <textarea id="obs"></textarea>
           </div>
         </div>
         <div class="coluna3">
+          <h3>Resumo</h3>
           <!-- Seção Resumo -->
-          <div class="item resumo">
+          <div class="resumo">
             <p>Dinheiro: <span id="totalDinheiro">00,00</span></p>
             <p>Moedas: <span id="totalMoedas">00,00</span></p>
             <p>Troco: <span id="totalTroco">00,00</span></p>
@@ -189,10 +187,13 @@
             <p>Pix: <span id="totalPix">00,00</span></p>
             <p>Resgate: <span id="totalResgate">00,00</span></p>
             <h3>Total: <span id="totalGeral">00,00</span></h3>
-            <button class="btn-save-data" id="salvarButton">Salvar</button>
-            <button class="btn-delete-data" onclick="limparDados()">
-              Limpar Dados
-            </button>
+            <div class="buttons-save-delete">
+              <button class="btn-save-data" id="salvarButton">Salvar</button>
+              <button class="btn-delete-data" onclick="limparDados()">
+                Limpar Dados
+              </button>
+            </div>
+            <button onclick="salvarDadosCSV()">Baixar Arquivo</button>
           </div>
         </div>
       </div>
