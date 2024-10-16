@@ -480,20 +480,31 @@ function carregarMoedasAnterior() {
   const campoData = document.getElementById("data").value;
   const dataAtual = new Date(campoData);
 
-  // Subtrai um dia para pegar o dia anterior
-  const diaAnterior = new Date(dataAtual);
-  diaAnterior.setDate(diaAnterior.getDate() - 1);
+  // Converte a dataAtual para o formato YYYY-MM-DD para comparação
+  const dataAtualFormatada = dataAtual.toISOString().split("T")[0];
 
-  // Converte a data anterior para o formato YYYY-MM-DD
-  const diaAnteriorFormatado = diaAnterior.toISOString().split("T")[0];
+  // Obtém todas as chaves do localStorage
+  const chaves = Object.keys(localStorage);
 
-  // Verifica se há dados para o dia anterior no localStorage
-  const dadosAnteriores = JSON.parse(
-    localStorage.getItem(diaAnteriorFormatado)
-  );
+  // Filtra as chaves para obter apenas as que são datas
+  const datasSalvas = chaves.filter((chave) => {
+    const dataChave = new Date(chave);
+    return !isNaN(dataChave.getTime()) && dataChave < dataAtual;
+  });
+
+  // Se não houver datas salvas anteriores, sai da função
+  if (datasSalvas.length === 0) {
+    document.getElementById("moedasPagar").value = "";
+    return;
+  }
+
+  // Ordena as datas salvas para encontrar a última
+  const ultimaData = datasSalvas.sort((a, b) => new Date(b) - new Date(a))[0];
+
+  // Obtém os dados da última data
+  const dadosAnteriores = JSON.parse(localStorage.getItem(ultimaData));
 
   if (dadosAnteriores) {
-    // Se existir dados, busca os valores de moedasC e moedasB
     const moedasC = parseFloat(dadosAnteriores.moedasC) || 0; // Converte para número, garantindo que não seja NaN
     const moedasB = parseFloat(dadosAnteriores.moedasB) || 0; // Converte para número, garantindo que não seja NaN
 
@@ -505,8 +516,8 @@ function carregarMoedasAnterior() {
       .toString()
       .replace(".", ",");
   } else {
-    // Se não houver dados para o dia anterior, deixa o campo vazio ou com valor padrão
     document.getElementById("moedasPagar").value = "";
   }
+
   atualizarResumo();
 }
